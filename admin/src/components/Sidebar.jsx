@@ -6,7 +6,7 @@ import { assets } from '../assets/assets'
 const Sidebar = () => {
 
     const {aToken} = useContext(AdminContext)
-  return (
+    return (
     <div className='min-h-screen bg-white border-r'>
         {
             aToken && <ul className='text-[#515151] mt-5'>

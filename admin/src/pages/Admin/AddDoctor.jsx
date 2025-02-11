@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import {assets} from '../../assets/assets'
 import { AdminContext } from '../../context/AdminContext';
 import { toast } from 'react-toastify';
+import axios from 'axios'
 const AddDoctor = () => {
 
     const [docImg,setDocImg] = useState(false);
@@ -16,13 +17,13 @@ const AddDoctor = () => {
     const [address1, setAddress1] = useState('')
     const [address2, setAddress2] = useState('')
 
-    const {backendUrl, aToken} = useContext(AdminContext)
+    const { backendUrl, aToken } = useContext(AdminContext)
     const onSubmitHandler = async (event) => {
         event.preventDefault()
 
         try {
             if(!docImg) {
-                return toast.error('Image Not Selcted')
+                return toast.error('Image Not Selected')
             }
 
             const formData = new formData()
@@ -42,6 +43,17 @@ const AddDoctor = () => {
             formData.forEach((value,key)=>{
                 console.log(`${key} : ${value}`);
             })
+
+            // now we can make api call to the backend to save the the doctors detail on the database
+            const { data } = await axios.post(backendUrl + '/api/admin/add-doctor', formData, {headers:{ aToken }})
+
+            if(data.success){
+                toast.success(data.message)
+            }else{
+                toast.error(data.message)
+            }
+
+
         } catch (error) {
             
         }
@@ -54,17 +66,16 @@ const AddDoctor = () => {
 
         <p className='mb-3 text-lg font-medium'>Add Doctor</p>
 
-        <div className='bg-white px-8 py-8 border rounded w-full max-h-[80vh] overflow-y-scroll'>
+        <div className='bg-white px-8 py-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll'>
             <div className='flex items-center gap-4 mb-8 text-gray-500'>
                 <label htmlFor="doc-img">
                     <img 
-                    
                     className='w-16 bg-gray-100 rounded-full cursor-pointer' src={docImg ? URL.createObjectURL(docImg) : assets.upload_area} alt=""/>
                 </label>
                 <input 
-                onClick={(e)=> {setDocImg(e.target.files[0])}}
+                onChange={(e)=> {setDocImg(e.target.files[0])}}
                 type="file" id="doc-img" hidden/>
-                <p>Upload doctor<br/>picture</p>
+                <p>Upload doctor <br/>picture</p>
             </div>
             <div className='flex flex-col lg:flex-row items:start gap-10 text-gray-600'>
                 <div className='w-full lg:flex-1 flex flex-col gap-4'>
@@ -87,7 +98,7 @@ const AddDoctor = () => {
                         <p>Doctor Password</p>
                         <input 
                         onChange={(e)=> setPassword(e.target.value)}
-                        value={password}className='border rounded px-3 py-2' type="password" placeholder='Password' required/>
+                        value={password} className='border rounded px-3 py-2' type="password" placeholder='Password' required/>
                     </div>
                     <div className='flex-1 flex flex-col gap-1'>
                         <p>Experience</p>

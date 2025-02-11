@@ -10,7 +10,7 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const logout = () => {
-        navigate('/')
+        navigate('/') // whenever user click on logout button it redirect to the slash page
         aToken && setAToken('')
         aToken && localStorage.removeItem('aToken')
     }
