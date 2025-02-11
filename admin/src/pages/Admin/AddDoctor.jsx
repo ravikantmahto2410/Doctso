@@ -26,7 +26,7 @@ const AddDoctor = () => {
                 return toast.error('Image Not Selected')
             }
 
-            const formData = new formData()
+            const formData = new FormData()
 
             formData.append('image',docImg)
             formData.append('name',name)
@@ -171,7 +171,7 @@ const AddDoctor = () => {
             </div>
             <button 
             type='submit'
-            className='bg-[#5F6FFF] px-10 py-3 mt-4 text-white rounded-full'>Add Doctor</button>
+            className='bg-[#5F6FFF] px-10 py-3 mt-4 text-white rounded-full cursor-pointer'>Add Doctor</button>
 
         </div>
     </form>
