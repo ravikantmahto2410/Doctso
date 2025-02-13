@@ -11,7 +11,7 @@ const doctorSchema = new mongoose.Schema({
     about:{type:String, required:true},
     available:{type:Boolean, default:true},
     fees:{type:Number, required:true},
-    address:{type:String, required:true},
+    address:{type:Object, required:true},
     date: {type:Number, required:true}, // through this date we can know when the doctor was added in the database
     slots_booked: {type:Object, default:{}}
 },{minimize:false}) // if we dont write here minimize false then we cant be able to add empty slot for the doctors data
