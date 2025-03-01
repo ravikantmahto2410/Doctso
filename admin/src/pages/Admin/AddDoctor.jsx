@@ -37,7 +37,7 @@ const AddDoctor = () => {
             formData.append('about',about)
             formData.append('speciality',speciality)
             formData.append('degree',degree)
-            formData.append('address', JSON.stringify({line1:'sector 114',line2:'Gurgaon, India'})) // in this formdata we can send only in string format so we have to convert this josn format in string using JSON.stringify() method
+            formData.append('address', JSON.stringify({line1:address1,line2:address2})) // in this formdata we can send only in string format so we have to convert this josn format in string using JSON.stringify() method
             
             // check the formdata console log formdata
             formData.forEach((value,key)=>{
@@ -49,13 +49,23 @@ const AddDoctor = () => {
 
             if(data.success){
                 toast.success(data.message)
+                setDocImg(false)
+                setName('')
+                setPassword('')
+                setEmail('')
+                setAddress1('')
+                setAddress2('')
+                setDegree('')
+                setAbout('')
+                setFees('')
             }else{
                 toast.error(data.message)
             }
 
 
         } catch (error) {
-            
+            toast.error(error.message)
+            console.log(error)
         }
     }
 
