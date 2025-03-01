@@ -15,5 +15,14 @@ const changeAvailablity = async (req,res)=> {
         res.json({success:false, message:error.message})
     }
 }
-
-export {changeAvailablity}
+//we have to create one function so that we can get all doctors listfor frontend
+const doctorList = async (req,res) => {
+    try {
+        const doctors = await doctorModel.find({}).select(['-password','-email'])
+        res.json({success:true,doctors})
+    } catch (error) {
+        console.log(error)
+        res.json({success:false, message:error.message})
+    }
+}
+export {changeAvailablity,doctorList}

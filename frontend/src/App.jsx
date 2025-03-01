@@ -11,10 +11,11 @@ import Navbar from './components/Navbar'
 import MyAppointments from './pages/MyAppointments'
 import Header from './components/Header'
 import Footer from './components/Footer'
-
+import { ToastContainer, toast } from 'react-toastify';
 function App() {
   return (
     <div className = "mx-4 sm:mx-[10%]">
+    <ToastContainer/>
       <Navbar/>   {/*We are writing this Navbar here so that it will be visible in all the pages */}
       <Routes>
         <Route path = '/' element ={<Home/>}/>
