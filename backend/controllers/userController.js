@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt'
 import userModel from '../models/userModel.js'
 import jwt from 'jsonwebtoken'
 import {v2 as cloudinary} from 'cloudinary'
+import doctorModel from '../models/doctorModel.js'
+import appointmentModel from '../models/appointmentModel.js'
 //API to register user
 
 const registerUser = async (req, res) => {
@@ -120,4 +122,60 @@ const updateProfile = async (req,res) => {
     }
 }
 
-export {registerUser,loginUser, getProfile, updateProfile}
+//API to book Appointment
+const bookAppointment = async(req,res) => {
+    try {
+        const {userId, docId, slotDate, slotTime} = req.body
+
+        const docData = await doctorModel.findById(docId).select('-password') //after executing this statement we will get the doctor data using docId and in the doctor data we have removed the password property using select where we have provided password
+
+        if (!docData.available) {
+            return res.json({success:false, message:'Doctor not available'})
+        }
+
+        let slots_booked = docData.slots_booked
+
+        //checking for slots availablity
+        if(slots_booked[slotDate]){
+            if(slots_booked[slotDate].includes(slotTime)){
+                return res.json({success:false, message:'Slot not available'})
+            } else {
+                slots_booked[slotDate].push(slotTime)
+            }
+        } else {
+            slots_booked[slotDate] = []
+            slots_booked[slotDate].push(slotTime)
+        }
+
+        const userData = await userModel.findById(userId).select('-password') //here we will get the user data
+        
+        delete docData.slots_booked
+
+        const appointmentData = {
+            userId,
+            docId,
+            userData,
+            docData,
+            amount:docData.fees,
+            slotTime,
+            slotDate,
+            date: Date.now()
+        }
+        // To save appoitmentData in the database
+        const newAppointment = new appointmentModel(appointmentData)
+        await newAppointment.save() // by adding this method our new appoitment will be saved in the database
+
+
+        //save new slots data in docData
+
+        await doctorModel.findByIdAndUpdate(docId,{slots_booked})
+
+        res.json({success:true, message:'Appointment Booked'})
+
+    } catch (error) {
+        console.log(error)
+        res.json({success:false,message:error.message})
+    }
+}
+
+export {registerUser,loginUser, getProfile, updateProfile, bookAppointment}
