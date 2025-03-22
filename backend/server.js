@@ -8,9 +8,12 @@ import doctorRouter from './routes/doctorRoute.js'
 import userRouter from './routes/userRoute.js'
 
 //app config
+connectDB()
+import appointmentModel from "./models/appointmentModel.js"; // Import AFTER connecting
+
 const app = express()
 const port = process.env.PORT || 4000
-connectDB()
+
 connectCloudinary()
 
 //middlewares
