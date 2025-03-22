@@ -11,13 +11,13 @@ const MyAppointments = () => {
   const [appointments,setAppointments] = useState([])
   const months = [" ", "Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-  const navigate = useNavigate()
-
 
   const slotDateFormat = (slotDate) => {
     const dateArray = slotDate.split('_')
     return dateArray[0] + " " + months[Number(dateArray[1])] + " " + dateArray[2]
   }
+  const navigate = useNavigate()
+  
   const getUserAppointments = async () => {
     try {
       const { data } = await axios.get(backendUrl + '/api/user/appointments', {headers:{token}})
