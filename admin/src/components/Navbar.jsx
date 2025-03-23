@@ -2,10 +2,12 @@ import React,{useContext} from 'react'
 import  {assets} from '../assets/assets'
 import { AdminContext } from '../context/AdminContext'
 import { useNavigate } from 'react-router-dom'
+import { DoctorContext } from '../context/DoctorContext'
 
 const Navbar = () => {
     
     const {aToken,setAToken} = useContext(AdminContext)
+    const {dToken, setDToken} = useContext(DoctorContext)
 
     const navigate = useNavigate()
 
@@ -13,6 +15,8 @@ const Navbar = () => {
         navigate('/') // whenever user click on logout button it redirect to the slash page
         aToken && setAToken('')
         aToken && localStorage.removeItem('aToken')
+        dToken && setDToken('')
+        dToken && localStorage.removeItem('dToken')
     }
 
   return (
