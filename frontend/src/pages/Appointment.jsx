@@ -72,8 +72,7 @@ const Appointments = () => {
           })
         }
         
-
-        // increamnet current time by 30 minutes
+        // increament current time by 30 minutes 
         currentDate.setMinutes(currentDate.getMinutes() + 30)
       }
 
