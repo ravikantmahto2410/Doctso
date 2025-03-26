@@ -5,7 +5,7 @@ import { AppContext } from '../context/AppContext'
 import { assets } from '../assets/assets'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import appointmentModel from '../../../backend/models/appointmentModel'
+
 
 const Appointments = () => {
   const {docId} = useParams()
