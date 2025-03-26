@@ -13,7 +13,7 @@ const appointmentSchema = new mongoose.Schema({
     payment:{type: Boolean,default: false },  //we will make this payment property , if the user has made the payment online, then we will make it true, if the user has not paid the amount then we will make it false 
     isCompleted: {type: Boolean, default: false}
 })
-console.log("Mongoose Models:", mongoose.models);
+
 const appointmentModel = mongoose.model("appointment", appointmentSchema);
 
 export default appointmentModel
