@@ -2,6 +2,7 @@
 import { createContext, useEffect, useState } from "react"
 import {toast} from 'react-toastify'
 import axios from 'axios'
+import { RotatingLines } from 'react-loader-spinner'
 export const AppContext = createContext()
 
 const AppContextProvider = (props) => {
@@ -12,18 +13,24 @@ const AppContextProvider = (props) => {
     const [doctors,setDoctors] = useState([])
     const [token,setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token'):false)
     const [userData,setUserData] = useState(false)
+    const [loading, setLoading] = useState(true);
 
     const getDoctorsData = async () => {
         try {
+            setLoading(true);
           const {data} = await axios.get(backendUrl + '/api/doctor/list')
           if(data.success){
             setDoctors(data.doctors)
           } else{
             toast.error(data.message)
           }
+          
         } catch (error) {
             console.log(error)
             toast.error(error.message)
+        }
+        finally {
+            setLoading(false);              
         }
     }
     
@@ -45,7 +52,7 @@ const AppContextProvider = (props) => {
 
 
     const value = {
-        doctors,getDoctorsData,
+        doctors,loading,getDoctorsData,
         currencySymbol,
         token,setToken,
         backendUrl,

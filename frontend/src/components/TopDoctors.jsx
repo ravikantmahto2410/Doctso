@@ -1,12 +1,29 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AppContext } from '../context/AppContext'
-
+import { AppContext, } from '../context/AppContext'
+import { RotatingLines } from 'react-loader-spinner'
 
 const TopDoctors = () => {
     const navigate = useNavigate()
 
-    const { doctors } = useContext(AppContext)
+    const { doctors,loading } = useContext(AppContext)
+    if (loading) {
+        return (
+            <div className='flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10 min-h-[400px]'>
+                <h1 className='text-3xl font-medium'>Top Doctors to Book</h1>
+                
+                <div className="flex justify-center items-center mt-10">
+                    <RotatingLines
+                        strokeColor="#3b82f6"
+                        strokeWidth="5"
+                        width="70"
+                        visible={true}
+                    />
+                </div>
+                <p className="text-gray-600 mt-4">Loading top doctors...</p>
+            </div>
+        )
+    }
     
   return (
     <div className='flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10'>
